@@ -8,60 +8,65 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div>
         <h5 class="text-xl font-bold text-yellow-400 mb-4 pixel-font">
-          GUILD CHRONICLES
+          KATALOG KARAKTER
         </h5>
         <p class="text-gray-300">
-          We craft epic 2D adventures and pixel-perfect experiences for brave
-          adventurers.
+          Website katalog karakter dari berbagai game 2D dan 3D. Temukan info
+          nama, asal game, gambar, skill, dan deskripsi karakter.
         </p>
       </div>
       <div>
         <h5 class="text-xl font-bold text-yellow-400 mb-4 pixel-font">
-          NAVIGATION
+          NAVIGASI
         </h5>
         <ul class="space-y-2">
           <li>
             <a
               href="/"
               class="text-gray-300 hover:text-yellow-400 transition font-medium"
-              >Home Tavern</a
+              >Beranda</a
             >
           </li>
           <li>
             <a
-              href="/about"
+              href="#about"
               class="text-gray-300 hover:text-yellow-400 transition font-medium"
-              >Guild History</a
+              >Tentang Website</a
             >
           </li>
           <li>
             <a
-              href="/contact"
+              href="#character"
               class="text-gray-300 hover:text-yellow-400 transition font-medium"
-              >Contact Guild</a
+              >Katalog Karakter</a
             >
           </li>
         </ul>
       </div>
       <div>
         <h5 class="text-xl font-bold text-yellow-400 mb-4 pixel-font">
-          JOIN OUR QUEST
+          KONTAK KAMI
         </h5>
         <address class="not-italic text-gray-300">
           <div class="mb-2">
-            Owl Post:
-            <a href="mailto:quests@pixelguild.com" class="hover:text-yellow-400"
-              >quests@pixelguild.com</a
+            Email:
+            <a
+              href="mailto:info@katalogkarakter.com"
+              class="hover:text-yellow-400"
+              >info@katalogkarakter.com</a
             >
           </div>
-          <div>Crystal Ball: +1 (555) 123-4567</div>
+          <div>Telp: +62 812-3456-7890</div>
         </address>
       </div>
     </div>
     <div class="text-center pt-8 mt-8 border-t border-gray-700">
       <p class="text-gray-400 text-sm">
-        &copy; <%= new Date().getFullYear() %> PIXEL GUILD. All spells reserved.
+        &copy; <span id="year"></span> Katalog Karakter. All rights reserved.
       </p>
     </div>
   </div>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </footer>

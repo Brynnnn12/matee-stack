@@ -10,6 +10,7 @@ exports.index = async (req, res) => {
     roles,
     currentPage: "roles",
     message: req.flash("message"),
+    layout: "layouts/dashboard",
   });
 };
 

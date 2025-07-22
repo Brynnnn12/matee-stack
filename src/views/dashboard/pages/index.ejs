@@ -1,0 +1,118 @@
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 sm:gap-4">
+  <!-- Genre Card -->
+  <div class="bg-gray-700 border-2 border-gray-600 p-2 sm:p-4 lg:col-span-1">
+    <h2
+      class="text-lg sm:text-xl font-bold text-yellow-400 mb-2 sm:mb-4 border-b-2 border-gray-600 pb-1 sm:pb-2"
+    >
+      GENRE
+    </h2>
+    <div class="flex flex-col space-y-2">
+      <span class="px-2 py-1 bg-purple-600 text-xs rounded">Action RPG</span>
+      <span class="px-2 py-1 bg-blue-600 text-xs rounded">Adventure</span>
+      <span class="px-2 py-1 bg-green-600 text-xs rounded">Strategy</span>
+    </div>
+  </div>
+
+  <!-- Games Card -->
+  <div class="bg-gray-700 border-2 border-gray-600 p-2 sm:p-4 lg:col-span-1">
+    <h2
+      class="text-lg sm:text-xl font-bold text-yellow-400 mb-2 sm:mb-4 border-b-2 border-gray-600 pb-1 sm:pb-2"
+    >
+      GAMES
+    </h2>
+    <div class="flex flex-col space-y-2">
+      <div class="bg-gray-800 p-2 border border-gray-600">
+        <h3 class="font-bold text-sm">Dragon Quest</h3>
+        <p class="text-xs text-gray-400">Level Cap: 100</p>
+      </div>
+      <div class="bg-gray-800 p-2 border border-gray-600">
+        <h3 class="font-bold text-sm">Herbalist Saga</h3>
+        <p class="text-xs text-gray-400">Collectibles: 120</p>
+      </div>
+      <div class="bg-gray-800 p-2 border border-gray-600">
+        <h3 class="font-bold text-sm">Archer’s Path</h3>
+        <p class="text-xs text-gray-400">Players Online: 2,300</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users Card -->
+  <div class="bg-gray-700 border-2 border-gray-600 p-2 sm:p-4 lg:col-span-1">
+    <h2
+      class="text-lg sm:text-xl font-bold text-yellow-400 mb-2 sm:mb-4 border-b-2 border-gray-600 pb-1 sm:pb-2"
+    >
+      USERS
+    </h2>
+    <div class="space-y-2">
+      <div
+        class="flex items-center space-x-2 bg-gray-800 p-2 border border-gray-600"
+      >
+        <div class="w-8 h-8 bg-purple-500 rounded"></div>
+        <div>
+          <p class="font-bold text-sm">Brynnnn12</p>
+          <p class="text-xs text-gray-400">Master Strategist</p>
+        </div>
+      </div>
+      <div
+        class="flex items-center space-x-2 bg-gray-800 p-2 border border-gray-600"
+      >
+        <div class="w-8 h-8 bg-green-500 rounded"></div>
+        <div>
+          <p class="font-bold text-sm">Warrior123</p>
+          <p class="text-xs text-gray-400">Top Warrior</p>
+        </div>
+      </div>
+      <div
+        class="flex items-center space-x-2 bg-gray-800 p-2 border border-gray-600"
+      >
+        <div class="w-8 h-8 bg-blue-500 rounded"></div>
+        <div>
+          <p class="font-bold text-sm">MageQueen</p>
+          <p class="text-xs text-gray-400">Elite Mage</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Characters Preview -->
+  <div class="lg:col-span-2 bg-gray-700 border-2 border-gray-600 p-2 sm:p-4">
+    <h2
+      class="text-lg sm:text-xl font-bold text-yellow-400 mb-2 sm:mb-4 border-b-2 border-gray-600 pb-1 sm:pb-2"
+    >
+      CHARACTERS PREVIEW
+    </h2>
+    <div class="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-6 gap-1 sm:gap-3">
+      <% for(let i = 0; i < 6; i++) { %>
+      <div
+        class="w-full aspect-square bg-gray-800 border border-gray-600 hover:border-yellow-400 cursor-pointer flex flex-col items-center justify-center"
+      >
+        <div class="w-8 h-8 bg-red-500 rounded-full mb-1"></div>
+        <span class="text-xs text-gray-300">Char <%= i+1 %></span>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Skills List -->
+  <div class="bg-gray-700 border-2 border-gray-600 p-2 sm:p-4">
+    <h2
+      class="text-lg sm:text-xl font-bold text-yellow-400 mb-2 sm:mb-4 border-b-2 border-gray-600 pb-1 sm:pb-2"
+    >
+      SKILLS
+    </h2>
+    <div class="space-y-2">
+      <div class="bg-gray-800 p-2 border border-gray-600 flex flex-col">
+        <span class="font-bold text-sm text-green-400">Sword Slash</span>
+        <span class="text-xs text-gray-400">Damage: 50</span>
+      </div>
+      <div class="bg-gray-800 p-2 border border-gray-600 flex flex-col">
+        <span class="font-bold text-sm text-blue-400">Arcane Blast</span>
+        <span class="text-xs text-gray-400">Damage: 70</span>
+      </div>
+      <div class="bg-gray-800 p-2 border border-gray-600 flex flex-col">
+        <span class="font-bold text-sm text-yellow-400">Rapid Shot</span>
+        <span class="text-xs text-gray-400">Damage: 40</span>
+      </div>
+    </div>
+  </div>
+</div>

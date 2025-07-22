@@ -1,13 +1,21 @@
 const express = require("express");
 const router = express.Router();
+
 const authController = require("../controllers/authController");
 const roleController = require("../controllers/roleController");
-const { protect, authorize } = require("../middleware/authMiddleware");
-const { roleValidation } = require("../validation/roleValidation");
+const genreController = require("../controllers/genreController");
 
-// Halaman utama
+const {
+  attachUser,
+  protect,
+  authorize,
+} = require("../middleware/authMiddleware");
+const { roleValidation } = require("../validation/roleValidation");
+const { genreValidation } = require("../validation/genreValidation");
+
+// ===================== HOME =====================
 router.get("/", (req, res) => {
-  const user = req.session.user ? req.session.user : null;
+  const user = req.session.user || null;
   const message = req.flash("message");
   res.render("home", {
     title: "Home",
@@ -16,37 +24,62 @@ router.get("/", (req, res) => {
     currentPage: "home",
   });
 });
-router.get("/register", (req, res) => {
-  res.render("auth/register", {
-    title: "Register",
-    errors: req.flash("errors"),
-    old: req.flash("old"),
-    currentPage: "register",
-  });
-});
-router.post("/register", authController.register);
 
-router.get("/login", (req, res) => {
-  res.render("auth/login", {
-    title: "Login",
-    errors: req.flash("errors"),
-    old: req.flash("old"),
-    currentPage: "login",
-  });
-});
-router.post("/login", authController.login);
+// ===================== AUTH =====================
+router
+  .route("/register")
+  .get((req, res) => {
+    res.render("auth/register", {
+      title: "Register",
+      errors: req.flash("errors"),
+      old: req.flash("old"),
+      currentPage: "register",
+    });
+  })
+  .post(authController.register);
 
-// Logout
+router
+  .route("/login")
+  .get((req, res) => {
+    res.render("auth/login", {
+      title: "Login",
+      errors: req.flash("errors"),
+      old: req.flash("old"),
+      currentPage: "login",
+    });
+  })
+  .post(authController.login);
+
 router.get("/logout", protect, authController.logout);
 
-// Example protected route dashboard roles
+// ===================== DASHBOARD =====================
+router.get("/dashboard", attachUser, protect, (req, res) => {
+  res.render("dashboard/pages/index", {
+    title: "Dashboard",
+    user: req.user,
+    currentPage: "dashboard",
+    layout: "layouts/dashboard",
+  });
+});
+
+// ===================== PROFILE =====================
+router.get("/dashboard/profiles", attachUser, protect, (req, res) => {
+  res.render("profile/index", {
+    user: req.user,
+    title: "Profile",
+    layout: "layouts/dashboard",
+  });
+});
+
+// ===================== ROLES (Admin Only) =====================
 router.get(
   "/dashboard/roles",
+  attachUser,
   protect,
   authorize("Admin"),
   roleController.index
 );
-// Tambah role
+
 router.post(
   "/dashboard/roles",
   protect,
@@ -54,11 +87,43 @@ router.post(
   roleValidation,
   roleController.store
 );
-// Hapus role
-router.post(
-  "/dashboard/roles/:id/delete",
+
+router.delete(
+  "/dashboard/roles/:id",
   protect,
   authorize("Admin"),
   roleController.destroy
 );
+
+// ===================== GENRES (Admin Only) =====================
+router.get(
+  "/dashboard/genres",
+  protect,
+  authorize("Admin"),
+  genreController.index
+);
+
+router.post(
+  "/dashboard/genres",
+  protect,
+  authorize("Admin"),
+  genreValidation,
+  genreController.store
+);
+
+router.put(
+  "/dashboard/genres/:slug",
+  protect,
+  authorize("Admin"),
+  genreValidation,
+  genreController.update
+);
+
+router.delete(
+  "/dashboard/genres/:slug",
+  protect,
+  authorize("Admin"),
+  genreController.destroy
+);
+
 module.exports = router;

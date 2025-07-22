@@ -1,5 +1,17 @@
 const { User, Role } = require("../models");
 
+exports.attachUser = async (req, res, next) => {
+  if (req.session.userId) {
+    const user = await User.findByPk(req.session.userId, {
+      include: [{ model: Role, as: "role" }],
+    });
+    if (user) {
+      req.user = user; // Untuk akses di controller/route
+      res.locals.user = user; // Untuk akses langsung di EJS
+    }
+  }
+  next();
+};
 // Proteksi: hanya user login yang bisa akses
 exports.protect = (req, res, next) => {
   if (!req.session.userId) {

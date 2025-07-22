@@ -28,7 +28,7 @@ exports.register = async (req, res, next) => {
         },
       ],
     });
-    req.session.user = userWithRole;
+    req.session.userId = user.id;
 
     req.flash("message", "Registrasi berhasil");
     return res.redirect("/");
@@ -83,9 +83,9 @@ exports.login = async (req, res, next) => {
     });
   }
 
-  req.session.user = user;
+  req.session.userId = user.id;
   req.flash("message", "Login berhasil");
-  return res.redirect("/");
+  return res.redirect("/dashboard");
 };
 
 exports.logout = (req, res) => {

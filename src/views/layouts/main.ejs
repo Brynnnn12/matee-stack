@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || "Home" %></title>
+    <link href="/src/output.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <%- include('../components/partials/navbar.ejs') %>
+    <div x-data="{count: 0}">
+      <button @click="count++">Tambah</button>
+      <span class="text-black" x-text="count"></span>
+    </div>
+
+    <main class="container mx-auto px-4 py-10 flex-grow"><%- body %></main>
+
+    <%- include('../components/partials/footer.ejs') %>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"
+    ></script>
+  </body>
+</html>

@@ -1,78 +1,105 @@
-<!-- Alpine.js for toggle menu -->
+<nav
+  class="bg-gray-900 text-white z-50 relative border-b-4 border-yellow-400 font-mono"
+>
+  <!-- Pixel decoration -->
+  <div
+    class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400"
+  ></div>
 
-<nav class="bg-gray-900 text-white" x-data="{ open: false }">
-  <div class="container mx-auto flex items-center justify-between px-4 py-3">
-    <a href="/" class="text-lg font-bold">My Website</a>
+  <div
+    class="container mx-auto flex items-center justify-between px-4 py-3 relative"
+  >
+    <!-- Logo with game style -->
+    <a href="/" class="text-2xl font-bold text-yellow-400 flex items-center">
+      <span
+        class="inline-block w-8 h-8 bg-red-500 mr-2 shadow-[4px_4px_0px_rgba(0,0,0,0.2)]"
+      ></span>
+      GAME<span class="text-white">WORLD</span>
+    </a>
+
+    <!-- Mobile menu button -->
     <button
-      class="block md:hidden text-gray-400 focus:outline-none"
-      @click="open = !open"
+      class="block md:hidden text-yellow-400 focus:outline-none uppercase font-bold px-4 py-2 shadow-lg"
+      id="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu"
     >
       <svg
-        class="h-6 w-6"
+        class="h-8 w-8"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          stroke-linecap="square"
+          stroke-linejoin="miter"
+          stroke-width="3"
           d="M4 6h16M4 12h16M4 18h16"
         ></path>
       </svg>
     </button>
+
+    <!-- Navigation menu -->
     <ul
-      :class="{'hidden': !open, 'flex': open}"
-      class="md:flex space-x-4 md:space-x-8 md:items-center md:static absolute left-0 w-full md:w-auto bg-gray-900 md:bg-transparent md:py-0 py-4 top-full"
+      id="menu"
+      class="hidden md:flex space-x-2 md:space-x-6 md:items-center md:static absolute left-0 w-full md:w-auto bg-gray-900 md:bg-transparent md:py-0 py-4 top-full border-b-4 border-yellow-400"
     >
       <li>
         <% if (currentPage === 'home') { %>
         <button
-          class="px-3 py-2 rounded-md bg-gray-800 text-yellow-400 cursor-pointer w-full text-left"
-          onclick="document.getElementById('home-section').scrollIntoView({behavior: 'smooth'})"
+          id="home-btn"
+          class="px-4 py-2 bg-yellow-400 text-gray-900 font-bold cursor-pointer border-4 border-gray-900 hover:scale-105 transition active:scale-95 uppercase shadow-lg"
         >
-          Home
+          HOME
         </button>
         <% } else { %>
         <a
           href="/"
-          class="px-3 py-2 rounded-md transition-colors hover:bg-gray-800 hover:text-yellow-400"
-          >Home</a
+          class="px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+          >HOME</a
         >
         <% } %>
       </li>
       <li>
         <% if (currentPage === 'about') { %>
         <button
-          class="px-3 py-2 rounded-md bg-gray-800 text-yellow-400 cursor-pointer w-full text-left"
-          onclick="document.getElementById('about-section').scrollIntoView({behavior: 'smooth'})"
+          id="about-btn"
+          class="px-4 py-2 bg-yellow-400 text-gray-900 font-bold cursor-pointer border-4 border-gray-900 hover:scale-105 transition active:scale-95 uppercase shadow-lg"
         >
-          About
+          ABOUT
         </button>
         <% } else { %>
         <a
           href="/about"
-          class="px-3 py-2 rounded-md transition-colors hover:bg-gray-800 hover:text-yellow-400"
-          >About</a
+          class="px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+          >ABOUT</a
         >
         <% } %>
       </li>
       <li>
         <% if (currentPage === 'contact') { %>
         <button
-          class="px-3 py-2 rounded-md bg-gray-800 text-yellow-400 cursor-pointer w-full text-left"
-          onclick="document.getElementById('contact-section').scrollIntoView({behavior: 'smooth'})"
+          id="contact-btn"
+          class="px-4 py-2 bg-yellow-400 text-gray-900 font-bold cursor-pointer border-4 border-gray-900 hover:scale-105 transition active:scale-95 uppercase shadow-lg"
         >
-          Contact
+          CONTACT
         </button>
         <% } else { %>
         <a
           href="/contact"
-          class="px-3 py-2 rounded-md transition-colors hover:bg-gray-800 hover:text-yellow-400"
-          >Contact</a
+          class="px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+          >CONTACT</a
         >
         <% } %>
+      </li>
+
+      <!-- Pixel character decoration -->
+      <li class="hidden md:block ml-4">
+        <div
+          class="w-10 h-10 bg-blue-400 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] animate-bounce"
+        ></div>
       </li>
     </ul>
   </div>

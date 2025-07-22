@@ -1,53 +1,79 @@
-<section id="about" class="py-20 bg-gray-50">
-  <div class="container mx-auto px-4">
+<section
+  id="about"
+  class="py-20 bg-gradient-to-b from-purple-900 to-indigo-800 text-white relative overflow-hidden"
+>
+  <!-- Pixel decorations -->
+  <div
+    class="absolute top-10 right-10 w-8 h-8 bg-yellow-400 opacity-50 rounded-sm"
+  ></div>
+  <div
+    class="absolute bottom-20 left-1/4 w-12 h-12 bg-pink-500 opacity-30 rotate-45"
+  ></div>
+
+  <div class="container mx-auto px-4 relative z-10">
     <div class="text-center mb-16">
-      <h2 class="text-3xl font-bold text-gray-800 mb-4">About Our Company</h2>
-      <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 game-title">
+        <span class="text-yellow-400">LEVEL</span> OUR STORY
+      </h2>
+      <div class="w-32 h-2 bg-yellow-400 mx-auto"></div>
     </div>
 
     <div class="flex flex-col md:flex-row items-center">
       <!-- About Image -->
       <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-        <div class="relative rounded-xl overflow-hidden shadow-lg">
+        <div
+          class="relative rounded-lg overflow-hidden border-4 border-yellow-400 transform hover:scale-105 transition duration-500"
+        >
           <img
             src="/images/about-image.jpg"
             alt="Our Team"
             class="w-full h-auto"
           />
-          <div class="absolute inset-0 bg-blue-600 opacity-20"></div>
+          <div class="absolute inset-0 bg-purple-700 opacity-30"></div>
+          <div
+            class="absolute -bottom-4 -right-4 w-16 h-16 bg-green-400 rounded-full opacity-50"
+          ></div>
         </div>
       </div>
 
       <!-- About Content -->
       <div class="md:w-1/2">
-        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Story</h3>
-        <p class="text-gray-600 mb-6">
-          Founded in 2015, we started as a small team with big dreams. Today,
-          we've grown into a full-service digital agency serving clients
-          worldwide.
+        <h3 class="text-3xl font-bold text-yellow-400 mb-4 pixel-font">
+          OUR QUEST
+        </h3>
+        <p class="text-gray-200 mb-6 text-lg leading-relaxed">
+          Founded in 2015, we began as pixel pioneers in a digital realm. Today,
+          we've leveled up into a full-service game development guild serving
+          players worldwide.
         </p>
 
-        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Mission</h3>
-        <p class="text-gray-600 mb-6">
-          We're committed to delivering exceptional results through innovative
-          solutions, transparent communication, and a client-first approach.
+        <h3 class="text-3xl font-bold text-yellow-400 mb-4 pixel-font">
+          OUR POWER-UPS
+        </h3>
+        <p class="text-gray-200 mb-6 text-lg leading-relaxed">
+          We're committed to epic loot drops through innovative mechanics,
+          transparent guild chat, and a player-first philosophy.
         </p>
 
-        <div class="grid grid-cols-2 gap-4 mb-8">
-          <div class="bg-white p-4 rounded-lg shadow-sm">
-            <h4 class="font-bold text-blue-600 mb-2">200+</h4>
-            <p class="text-gray-600">Projects Completed</p>
+        <div class="grid grid-cols-2 gap-6 mb-8">
+          <div
+            class="bg-gray-900 p-6 rounded-lg border-2 border-yellow-400 transform hover:scale-105 transition"
+          >
+            <h4 class="font-bold text-yellow-400 mb-2 text-3xl">200+</h4>
+            <p class="text-gray-300">Quests Completed</p>
           </div>
-          <div class="bg-white p-4 rounded-lg shadow-sm">
-            <h4 class="font-bold text-blue-600 mb-2">50+</h4>
-            <p class="text-gray-600">Happy Clients</p>
+          <div
+            class="bg-gray-900 p-6 rounded-lg border-2 border-yellow-400 transform hover:scale-105 transition"
+          >
+            <h4 class="font-bold text-yellow-400 mb-2 text-3xl">50+</h4>
+            <p class="text-gray-300">Happy Adventurers</p>
           </div>
         </div>
 
         <a
           href="#"
-          class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
-          >Our Services</a
+          class="inline-block bg-yellow-400 text-purple-900 px-8 py-4 rounded-lg font-bold hover:bg-yellow-300 transition transform hover:scale-105 shadow-lg pixel-button"
+          >VIEW OUR INVENTORY</a
         >
       </div>
     </div>

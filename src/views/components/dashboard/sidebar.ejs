@@ -17,35 +17,35 @@
   <!-- Navigation -->
   <nav class="flex-1 p-4 space-y-2">
     <a
-      href="/genre"
+      href="/dashboard/genres"
       class="block px-4 py-3 bg-gray-700 border-2 border-gray-600 text-purple-400 hover:border-yellow-400 hover:bg-gray-600 transition items-center"
     >
       <span class="w-4 h-4 bg-purple-500 mr-3"></span>
       Genre
     </a>
     <a
-      href="/games"
+      href="/dashboard/games"
       class="block px-4 py-3 bg-gray-700 border-2 border-gray-600 text-blue-400 hover:border-yellow-400 hover:bg-gray-600 transition items-center"
     >
       <span class="w-4 h-4 bg-blue-500 mr-3"></span>
       Games
     </a>
     <a
-      href="/users"
+      href="/dashboard/users"
       class="block px-4 py-3 bg-gray-700 border-2 border-gray-600 text-green-400 hover:border-yellow-400 hover:bg-gray-600 transition items-center"
     >
       <span class="w-4 h-4 bg-green-500 mr-3"></span>
       Users
     </a>
     <a
-      href="/characters"
+      href="/dashboard/characters"
       class="block px-4 py-3 bg-gray-700 border-2 border-gray-600 text-red-400 hover:border-yellow-400 hover:bg-gray-600 transition items-center"
     >
       <span class="w-4 h-4 bg-red-500 mr-3"></span>
       Characters
     </a>
     <a
-      href="/skills"
+      href="/dashboard/skills"
       class="block px-4 py-3 bg-gray-700 border-2 border-gray-600 text-yellow-400 hover:border-yellow-400 hover:bg-gray-600 transition items-center"
     >
       <span class="w-4 h-4 bg-yellow-500 mr-3"></span>
@@ -60,11 +60,15 @@
       <div class="space-y-1">
         <div class="flex justify-between">
           <span>Username:</span>
-          <span class="font-bold">Brynnnn12</span>
+          <% if (user) { %>
+          <span class="font-bold"><%= user.name %></span>
+          <% } else { %>
+          <span class="font-bold">Guest</span>
+          <% } %>
         </div>
         <div class="flex justify-between">
           <span>Role:</span>
-          <span class="font-bold">Master Strategist</span>
+          <span class="font-bold"><%= user ? user.role.name : 'Guest' %></span>
         </div>
         <div class="h-2 bg-gray-600 mt-1">
           <div class="h-full bg-blue-500" style="width: 80%"></div>

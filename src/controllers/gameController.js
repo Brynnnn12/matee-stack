@@ -26,11 +26,10 @@ exports.index = asyncHandler(async (req, res) => {
     ],
   });
 
-  res.render("dashboard/games/index", {
+  res.render("dashboard/games", {
     title: "Games",
     games,
     currentPage: "games",
-    message: req.flash("message"),
     page,
     pages,
     total,
@@ -47,6 +46,8 @@ exports.create = asyncHandler(async (req, res) => {
     genres,
     layout: "layouts/dashboard",
     csrfToken: req.csrfToken(),
+    errors: req.flash("errors"),
+    old: req.flash("old")[0] || {},
   });
 });
 
@@ -58,27 +59,25 @@ exports.store = asyncHandler(async (req, res) => {
   // Validasi gambar
   const imageError = validateImage(req);
   if (imageError) {
-    const genres = await Genre.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/games/create", {
-      title: "Create Game",
-      currentPage: "games",
-      genres,
-      errors: [{ msg: imageError }],
-      layout: "layouts/dashboard",
-      csrfToken: req.csrfToken(),
-    });
+    if (req.file && req.file.filename) {
+      deleteImage(path.join(IMAGE_PATH, req.file.filename));
+    }
+    // Harus array of object
+    req.flash("errors", [{ path: "image", msg: imageError }]);
+    req.flash("old", req.body);
+    return res.redirect("/dashboard/games/create");
   }
 
   if (!errors.isEmpty()) {
-    const genres = await Genre.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/games/create", {
-      title: "Create Game",
-      currentPage: "games",
-      genres,
-      errors: errors.array(),
-      layout: "layouts/dashboard",
-      csrfToken: req.csrfToken(),
-    });
+    if (req.file && req.file.filename) {
+      deleteImage(path.join(IMAGE_PATH, req.file.filename));
+    }
+
+    // express-validator sudah array of object
+    // console.log(errors.array());
+    req.flash("errors", errors.array());
+    req.flash("old", req.body);
+    return res.redirect("/dashboard/games/create");
   }
 
   const { name, genre_id, description, release_date, developer } = req.body;
@@ -113,7 +112,7 @@ exports.edit = asyncHandler(async (req, res) => {
     currentPage: "games",
     layout: "layouts/dashboard",
     errors: req.flash("errors"),
-    old: req.flash("old"),
+    old: req.flash("old")[0] || {},
     csrfToken: req.csrfToken(),
   });
 });
@@ -129,36 +128,28 @@ exports.update = asyncHandler(async (req, res) => {
   }
 
   if (!errors.isEmpty()) {
-    const genres = await Genre.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/games/edit", {
-      title: "Edit Game",
-      game,
-      genres,
-      errors: errors.array(),
-      layout: "layouts/dashboard",
-      csrfToken: req.csrfToken(),
-    });
+    // Hapus file jika sudah diupload
+    if (req.file && req.file.filename) {
+      deleteImage(req.file.filename, IMAGE_PATH);
+    }
+    req.flash("errors", errors.array());
+    req.flash("old", req.body);
+    return res.redirect(`/dashboard/games/${slug}/edit`);
   }
 
   // Jika upload gambar baru
   if (req.file) {
     const imageError = validateImage(req);
     if (imageError) {
-      const genres = await Genre.findAll({ order: [["createdAt", "DESC"]] });
-      return res.status(400).render("dashboard/games/edit", {
-        title: "Edit Game",
-        game,
-        genres,
-        errors: [{ msg: imageError }],
-        layout: "layouts/dashboard",
-        csrfToken: req.csrfToken(),
-      });
+      deleteImage(req.file.filename, IMAGE_PATH);
+      req.flash("errors", [{ path: "image", msg: imageError }]);
+      req.flash("old", req.body);
+      return res.redirect(`/dashboard/games/${slug}/edit`);
     }
     // Hapus gambar lama
     if (game.image) {
       deleteImage(path.join(IMAGE_PATH, game.image));
     }
-    // Simpan gambar baru
     game.image = req.file.filename;
   }
 

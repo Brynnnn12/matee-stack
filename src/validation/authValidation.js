@@ -5,6 +5,19 @@ exports.registerValidation = [
   body("name")
     .notEmpty()
     .withMessage("Nama wajib diisi")
+    .isLength({ min: 3 })
+    .withMessage("Nama minimal 3 karakter")
+    // Sanitasi input untuk menghindari XSS
+    .customSanitizer((value) => {
+      return value
+        .replace(/<script.*?>.*?<\/script>/gi, "")
+        .replace(/<style.*?>.*?<\/style>/gi, "")
+        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+    })
+    // Validasi karakter yang diperbolehkan
+    .matches(/^[a-zA-Z\s]+$/)
+    .withMessage("Nama hanya boleh terdiri dari huruf dan spasi")
+    // Escape karakter untuk menghindari XSS
     .customSanitizer((value) => validator.escape(value)),
   body("email")
     .notEmpty()
@@ -28,11 +41,30 @@ exports.loginValidation = [
   body("email")
     .isEmail()
     .withMessage("Email tidak valid")
+    .notEmpty()
+    .withMessage("Email wajib diisi")
+
+    // Sanitasi input untuk menghindari XSS
+    .customSanitizer((value) => {
+      return value
+        .replace(/<script.*?>.*?<\/script>/gi, "")
+        .replace(/<style.*?>.*?<\/style>/gi, "")
+        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+    })
+    // Escape karakter untuk menghindari XSS
     .customSanitizer((value) => validator.escape(value)),
   body("password")
     .notEmpty()
     .withMessage("Password wajib diisi")
     .isLength({ min: 6 })
     .withMessage("Password minimal 6 karakter")
+    // Sanitasi input untuk menghindari XSS
+    .customSanitizer((value) => {
+      return value
+        .replace(/<script.*?>.*?<\/script>/gi, "")
+        .replace(/<style.*?>.*?<\/style>/gi, "")
+        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+    })
+    // Escape karakter untuk menghindari XSS
     .customSanitizer((value) => validator.escape(value)),
 ];

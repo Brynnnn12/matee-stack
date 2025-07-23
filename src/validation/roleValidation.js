@@ -9,6 +9,18 @@ exports.roleValidation = [
     .withMessage("Nama role harus berupa string")
     .isLength({ min: 3 })
     .withMessage("Nama role minimal 3 karakter")
-    .customSanitizer((value) => validator.escape(value)),
-  ,
+    // Sanitasi input untuk menghindari XSS
+    .customSanitizer((value) => {
+      return value
+        .replace(/<script.*?>.*?<\/script>/gi, "")
+        .replace(/<style.*?>.*?<\/style>/gi, "")
+        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+    })
+    // Validasi karakter yang diperbolehkan
+    .matches(/^[a-zA-Z\s]+$/)
+    .withMessage("Nama role hanya boleh terdiri dari huruf dan spasi")
+    // Escape karakter untuk menghindari XSS
+    .customSanitizer((value) => {
+      return validator.escape(value);
+    }),
 ];

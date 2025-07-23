@@ -5,11 +5,10 @@ exports.index = async (req, res) => {
   const roles = await Role.findAll({
     order: [["createdAt", "DESC"]],
   });
-  res.render("dashboard/roles/index", {
+  res.render("dashboard/roles", {
     title: "Roles",
     roles,
     currentPage: "roles",
-    message: req.flash("message"),
     layout: "layouts/dashboard",
   });
 };
@@ -19,18 +18,17 @@ exports.create = (req, res) => {
     title: "Create Role",
     currentPage: "roles",
     layout: "layouts/dashboard",
+    errors: req.flash("errors"),
+    old: req.flash("old")[0] || {},
   });
 };
 
 exports.store = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const roles = await Role.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/roles", {
-      title: "Roles",
-      roles,
-      errors: errors.array(),
-    });
+    req.flash("errors", errors.array());
+    req.flash("old", req.body);
+    return res.redirect("/dashboard/roles/create");
   }
 
   const { name } = req.body;
@@ -51,6 +49,8 @@ exports.edit = async (req, res) => {
     role,
     currentPage: "roles",
     layout: "layouts/dashboard",
+    errors: req.flash("errors"),
+    old: req.flash("old")[0] || {},
   });
 };
 
@@ -58,12 +58,9 @@ exports.update = async (req, res) => {
   const { id } = req.params;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const roles = await Role.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/roles", {
-      title: "Roles",
-      roles,
-      errors: errors.array(),
-    });
+    req.flash("errors", errors.array());
+    req.flash("old", req.body);
+    return res.redirect(`/dashboard/roles/${id}/edit`);
   }
 
   const { name } = req.body;

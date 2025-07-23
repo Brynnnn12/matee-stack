@@ -1,25 +1,25 @@
 <div class="p-6">
   <div class="max-w-6xl mx-auto">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-yellow-400">Genres</h1>
+      <h1 class="text-2xl font-bold text-yellow-400">Characters</h1>
       <a
-        href="/dashboard/genres/create"
+        href="/dashboard/characters/create"
         class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-4 py-2 rounded"
       >
-        Add New Genre
+        Add New Character
       </a>
     </div>
 
-    <!-- Genre List Table -->
+    <!-- Character List Table -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
-      <% if (genres.length === 0) { %>
+      <% if (characters.length === 0) { %>
       <div class="p-6 text-center">
-        <p class="text-gray-400">No genres found.</p>
+        <p class="text-gray-400">No characters found.</p>
         <a
-          href="/dashboard/genres/create"
+          href="/dashboard/characters/create"
           class="inline-block mt-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-4 py-2 rounded"
         >
-          Create New Genre
+          Create New Character
         </a>
       </div>
       <% } else { %>
@@ -31,7 +31,13 @@
               Name
             </th>
             <th class="py-3 px-4 text-left text-yellow-400 font-semibold">
-              Slug
+              Game
+            </th>
+            <th class="py-3 px-4 text-left text-yellow-400 font-semibold">
+              Image
+            </th>
+            <th class="py-3 px-4 text-left text-yellow-400 font-semibold">
+              Description
             </th>
             <th class="py-3 px-4 text-left text-yellow-400 font-semibold">
               Created At
@@ -42,26 +48,43 @@
           </tr>
         </thead>
         <tbody>
-          <% genres.forEach((genre, idx) => { %>
+          <% characters.forEach((character, idx) => { %>
           <tr class="border-t border-gray-600 hover:bg-gray-600/50">
             <td class="py-3 px-4"><%= ((page - 1) * limit) + idx + 1 %></td>
-            <td class="py-3 px-4 font-medium"><%= genre.name %></td>
-            <td class="py-3 px-4 text-gray-400"><%= genre.slug %></td>
+            <td class="py-3 px-4 font-medium"><%= character.name %></td>
+            <td class="py-3 px-4 text-gray-400">
+              <%= character.game ? character.game.name : '-' %>
+            </td>
             <td class="py-3 px-4">
-              <%= new Date(genre.createdAt).toLocaleDateString() %>
+              <% if (character.image) { %>
+              <img
+                src="/uploads/characters/<%= character.image %>"
+                alt="<%= character.name %>"
+                class="w-16 h-16 object-cover rounded"
+              />
+              <% } else { %>
+              <span class="text-gray-500">No Image</span>
+              <% } %>
+            </td>
+            <td class="py-3 px-4 text-gray-400">
+              <%= character.description ? character.description.substring(0, 50)
+              + '...' : 'No Description' %>
+            </td>
+            <td class="py-3 px-4">
+              <%= new Date(character.createdAt).toLocaleDateString() %>
             </td>
             <td class="py-3 px-4">
               <div class="flex space-x-2">
                 <a
-                  href="/dashboard/genres/<%= genre.slug %>/edit"
+                  href="/dashboard/characters/<%= character.slug %>/edit"
                   class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
                 >
                   Edit
                 </a>
                 <form
-                  action="/dashboard/genres/<%= genre.slug %>?_method=DELETE"
+                  action="/dashboard/characters/<%= character.slug %>?_method=DELETE"
                   method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this genre?')"
+                  onsubmit="return confirm('Are you sure you want to delete this character?')"
                 >
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                   <button

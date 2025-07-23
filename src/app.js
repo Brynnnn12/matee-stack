@@ -43,25 +43,33 @@ app.use("/src", express.static(path.resolve(__dirname, "src")));
 // --- HAPUS BARIS INI ---
 // app.use(csurf());
 
-// PASANG CSRF GLOBAL UNTUK SEMUA ROUTE KECUALI UPLOAD FILE
+// PASANG CSRF GLOBAL UNTUK SEMUA ROUTE KECUALI UPLOAD FILE (games, avatar, character)
 app.use((req, res, next) => {
-  // Exclude upload file POST/PUT route
-  const isUpload =
-    req.originalUrl.startsWith("/dashboard/games") &&
+  // List route yang ingin dikecualikan dari CSRF
+  const exemptPaths = [
+    "/dashboard/games",
+    "/dashboard/avatar",
+    "/dashboard/character",
+  ];
+
+  // Cek apakah path cocok dan method POST/PUT
+  const isExempt =
+    exemptPaths.some((path) => req.originalUrl.startsWith(path)) &&
     (req.method === "POST" || req.method === "PUT");
 
-  if (isUpload) {
+  if (isExempt) {
     return next(); // Jangan pasang csurf global di sini
   }
 
   csurf()(req, res, next);
 });
-
 // Middleware global agar csrfToken & message tersedia di semua view
 app.use((req, res, next) => {
   res.locals.csrfToken =
     typeof req.csrfToken === "function" ? req.csrfToken() : "";
   res.locals.message = req.flash("message");
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   res.locals.errors = [];
   res.locals.old = {};
   next();

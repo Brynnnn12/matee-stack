@@ -19,7 +19,6 @@ exports.index = asyncHandler(async (req, res) => {
     title: "Genres",
     genres,
     currentPage: "genres",
-    message: req.flash("message"),
     page,
     pages,
     total,
@@ -33,18 +32,17 @@ exports.create = (req, res) => {
     title: "Create Genre",
     currentPage: "genres",
     layout: "layouts/dashboard",
+    errors: req.flash("errors"),
+    old: req.flash("old")[0] || {},
   });
 };
 
 exports.store = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const genres = await Genre.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/genres", {
-      title: "Genres",
-      genres,
-      errors: errors.array(),
-    });
+    req.flash("errors", errors.array());
+    req.flash("old", req.body);
+    return res.redirect("/dashboard/genres/create");
   }
 
   const { name } = req.body;
@@ -66,6 +64,8 @@ exports.edit = asyncHandler(async (req, res) => {
     genre,
     currentPage: "genres",
     layout: "layouts/dashboard",
+    errors: req.flash("errors"),
+    old: req.flash("old")[0] || {},
   });
 });
 
@@ -74,12 +74,9 @@ exports.update = asyncHandler(async (req, res) => {
   const { slug } = req.params;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const genres = await Genre.findAll({ order: [["createdAt", "DESC"]] });
-    return res.status(400).render("dashboard/genres", {
-      title: "Genres",
-      genres,
-      errors: errors.array(),
-    });
+    req.flash("errors", errors.array());
+    req.flash("old", req.body);
+    return res.redirect(`/dashboard/genres/${slug}/edit`);
   }
 
   const { name } = req.body;

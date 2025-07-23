@@ -12,10 +12,14 @@
   </head>
   <body class="">
     <%- include('../components/partials/navbar.ejs') %>
-    <main class=""><%- body %></main>
+
+    <main class="">
+      <%- include('../components/partials/message.ejs') %> <%- body %>
+    </main>
 
     <%- include('../components/partials/footer.ejs') %>
 
     <script src="/js/navbar.js"></script>
+    <script src="/js/message.js"></script>
   </body>
 </html>

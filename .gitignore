@@ -2,8 +2,5 @@
 # dependencies
 .env
 # environment variables
-.DS_Store
-# macOS system files
-
 
 /public/uploads

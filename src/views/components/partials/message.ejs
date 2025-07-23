@@ -1,0 +1,45 @@
+<% if (message && message.length > 0) { %> <% message.forEach(function(msg) { %>
+<div
+  class="relative flex items-center bg-green-600 text-white px-6 py-4 rounded-lg shadow-lg max-w-2xl mx-auto mb-6 animate-fade-in"
+>
+  <!-- Icon Success -->
+  <svg
+    class="w-6 h-6 mr-3 flex-shrink-0 text-white"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+  >
+    <circle
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="2"
+      fill="green"
+    />
+    <path stroke="white" stroke-width="2" d="M7 13l3 3 7-7" />
+  </svg>
+  <span class="flex-1"><%= msg %></span>
+  <!-- Button Close -->
+  <button
+    onclick="this.parentElement.style.display='none'"
+    class="ml-4 text-white hover:text-green-200 focus:outline-none"
+  >
+    <svg
+      class="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </button>
+</div>
+<% }) %> <% } %>

@@ -23,9 +23,18 @@ exports.index = asyncHandler(async (req, res) => {
     page,
     pages,
     total,
+    limit,
     layout: "layouts/dashboard",
   });
 });
+
+exports.create = (req, res) => {
+  res.render("dashboard/genres/create", {
+    title: "Create Genre",
+    currentPage: "genres",
+    layout: "layouts/dashboard",
+  });
+};
 
 exports.store = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
@@ -43,6 +52,21 @@ exports.store = asyncHandler(async (req, res) => {
   const genre = await Genre.create({ name, slug });
   req.flash("message", "Genre berhasil dibuat");
   res.redirect("/dashboard/genres");
+});
+
+exports.edit = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+  const genre = await Genre.findOne({ where: { slug } });
+  if (!genre) {
+    req.flash("message", "Genre tidak ditemukan");
+    return res.redirect("/dashboard/genres");
+  }
+  res.render("dashboard/genres/edit", {
+    title: "Edit Genre",
+    genre,
+    currentPage: "genres",
+    layout: "layouts/dashboard",
+  });
 });
 
 exports.update = asyncHandler(async (req, res) => {

@@ -1,4 +1,5 @@
 const { body } = require("express-validator");
+const validator = require("validator");
 
 exports.roleValidation = [
   body("name")
@@ -7,5 +8,7 @@ exports.roleValidation = [
     .isString()
     .withMessage("Nama role harus berupa string")
     .isLength({ min: 3 })
-    .withMessage("Nama role minimal 3 karakter"),
+    .withMessage("Nama role minimal 3 karakter")
+    .customSanitizer((value) => validator.escape(value)),
+  ,
 ];

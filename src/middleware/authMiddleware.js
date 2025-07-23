@@ -5,10 +5,11 @@ exports.attachUser = async (req, res, next) => {
     const user = await User.findByPk(req.session.userId, {
       include: [{ model: Role, as: "role" }],
     });
-    if (user) {
-      req.user = user; // Untuk akses di controller/route
-      res.locals.user = user; // Untuk akses langsung di EJS
-    }
+    req.user = user || null;
+    res.locals.user = user || null;
+  } else {
+    req.user = null;
+    res.locals.user = null;
   }
   next();
 };

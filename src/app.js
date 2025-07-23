@@ -11,6 +11,7 @@ const path = require("path");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const webRoutes = require("./routes/web");
 const expressLayouts = require("express-ejs-layouts");
+const { attachUser } = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -39,12 +40,27 @@ app.use(flash());
 app.use(express.static(path.resolve(__dirname, "../public")));
 app.use("/src", express.static(path.resolve(__dirname, "src")));
 
-// CSRF harus setelah session & flash
-app.use(csurf());
+// --- HAPUS BARIS INI ---
+// app.use(csurf());
+
+// PASANG CSRF GLOBAL UNTUK SEMUA ROUTE KECUALI UPLOAD FILE
+app.use((req, res, next) => {
+  // Exclude upload file POST/PUT route
+  const isUpload =
+    req.originalUrl.startsWith("/dashboard/games") &&
+    (req.method === "POST" || req.method === "PUT");
+
+  if (isUpload) {
+    return next(); // Jangan pasang csurf global di sini
+  }
+
+  csurf()(req, res, next);
+});
 
 // Middleware global agar csrfToken & message tersedia di semua view
 app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
+  res.locals.csrfToken =
+    typeof req.csrfToken === "function" ? req.csrfToken() : "";
   res.locals.message = req.flash("message");
   res.locals.errors = [];
   res.locals.old = {};
@@ -57,6 +73,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layouts/main");
 
+// Middleware untuk attach user ke request dan locals
+app.use(attachUser);
 app.use("/", webRoutes);
 
 app.use(notFound);

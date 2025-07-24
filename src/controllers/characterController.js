@@ -130,13 +130,29 @@ exports.update = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
 
   // Validasi gambar
-  const imageError = validateImage(req);
-  if (imageError) {
-    if (req.file && req.file.filename) {
+  if (req.file) {
+    const imageError = validateImage(req);
+    if (imageError) {
+      // console.log("[VALIDATION FAILED] Gambar tidak valid:", req.file.filename);
       deleteImage(req.file.filename, IMAGE_PATH);
+      req.flash("errors", [{ path: "image", msg: imageError }]);
+      req.flash("old", req.body);
+      return res.redirect(`/dashboard/characters/${character.slug}/edit`);
     }
-    req.flash("message", imageError);
-    return res.redirect(`/dashboard/characters/${character.slug}/edit`);
+
+    const oldImage = character.image;
+
+    // Set gambar baru ke character
+    character.image = req.file.filename;
+
+    // Hapus gambar lama jika ada
+    if (oldImage) {
+      const oldImagePath = path.join(IMAGE_PATH, oldImage);
+      // console.log("[DELETE OLD IMAGE] Menghapus:", oldImagePath);
+      deleteImage(oldImagePath);
+    }
+
+    // console.log("[NEW IMAGE UPLOADED] Gambar baru:", character.image);
   }
 
   if (!errors.isEmpty()) {

@@ -21,12 +21,13 @@ router
     res.render("auth/login", {
       title: "Login",
       errors: req.flash("errors"),
-      old: req.flash("old"),
+      messages: req.flash("message"),
       currentPage: "login",
+
+      old: req.flash("old"),
     });
   })
   .post(authController.login);
 
-router.get("/logout", protect, authController.logout);
-
+router.post("/logout", protect, authController.logout);
 module.exports = router;

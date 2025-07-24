@@ -70,9 +70,15 @@
           <span>Role:</span>
           <span class="font-bold"><%= user ? user.role.name : 'Guest' %></span>
         </div>
-        <div class="h-2 bg-gray-600 mt-1">
-          <div class="h-full bg-blue-500" style="width: 80%"></div>
-        </div>
+        <form action="/logout" method="POST" class="mt-4">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button
+            type="submit"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded"
+          >
+            Logout
+          </button>
+        </form>
       </div>
     </div>
   </div>

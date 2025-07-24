@@ -1,0 +1,29 @@
+const { body } = require("express-validator");
+const validator = require("validator");
+
+/**
+ * Validasi untuk {{camelCase name}}
+ * @module validation/{{camelCase name}}Validation
+ * @requires express-validator
+ * @requires validator
+ * @description
+ * Modul ini berisi validasi untuk proses {{camelCase name }}.
+ * Validasi ini memastikan bahwa data yang diterima sesuai format yang diharapkan,
+ * termasuk sanitasi input untuk mencegah serangan XSS (Cross-Site Scripting).
+ */
+exports.{{camelCase name}}Validation = [
+  // body("field")
+  //   .notEmpty()
+  //   .withMessage("Field wajib diisi")
+  //   .isLength({ min: 3 })
+  //   .withMessage("Minimal 3 karakter")
+  //   .customSanitizer((value) => {
+  //     return value
+  //       .replace(/<script.*?>.*?<\/script>/gi, "")
+  //       .replace(/<style.*?>.*?<\/style>/gi, "")
+  //       .replace(/<[^>]*>/g, "");
+  //   })
+  //   .customSanitizer((value) => validator.escape(value)),
+  
+  // Tambahkan validasi lainnya di sini
+];

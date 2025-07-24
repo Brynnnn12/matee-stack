@@ -8,25 +8,27 @@ Sebuah website katalog karakter dari berbagai game 2D/3D. Cocok untuk mencari in
 - [EJS](https://ejs.co/) — Templating engine untuk rendering halaman
 - [Tailwind CSS](https://tailwindcss.com/) — Styling cepat & responsif
 - [MySQL](https://www.mysql.com/) — Database relasional
+- [Plop.js](https://plopjs.com/) — Code generator otomatis untuk file boilerplate
 
 ---
 
 ## 🧠 Fitur Utama
 
-| Fitur              | Keterangan                                           |
-|--------------------|-----------------------------------------------------|
-| 📄 Halaman Home    | Menampilkan list karakter                           |
-| 👤 Detail Karakter | Menampilkan info lengkap & gambar                   |
-| 🔎 Filter & Search | Cari karakter berdasarkan game atau nama            |
-| ➕ Tambah Karakter | (opsional, hanya untuk admin)                       |
-| 🧙 Daftar Skill    | Skill atau ability tiap karakter                    |
-| 💬 Komentar        | Komentar user (opsional)                            |
+| Fitur              | Keterangan                               |
+| ------------------ | ---------------------------------------- |
+| 📄 Halaman Home    | Menampilkan list karakter                |
+| 👤 Detail Karakter | Menampilkan info lengkap & gambar        |
+| 🔎 Filter & Search | Cari karakter berdasarkan game atau nama |
+| ➕ Tambah Karakter | (opsional, hanya untuk admin)            |
+| 🧙 Daftar Skill    | Skill atau ability tiap karakter         |
+| 💬 Komentar        | Komentar user (opsional)                 |
 
 ---
 
 ## 🗃️ ERD Sederhana
 
 **Tabel Users**
+
 - `id`
 - `name`
 - `email`
@@ -35,18 +37,20 @@ Sebuah website katalog karakter dari berbagai game 2D/3D. Cocok untuk mencari in
 - `password`
 
 **Tabel Genre**
+
 - `id`
 - `name`
 - `slug`
 
-
 **Tabel Games**
+
 - `id`
 - `title`
 - `slug`
 - `genre_id`
 
 **Tabel Characters**
+
 - `id`
 - `name`
 - `game_id` → games.id
@@ -54,6 +58,7 @@ Sebuah website katalog karakter dari berbagai game 2D/3D. Cocok untuk mencari in
 - `avatar_url`
 
 **Tabel Skills**
+
 - `id`
 - `character_id` → characters.id
 - `name`
@@ -85,6 +90,8 @@ characterpedia/
 │       └── character.js              # Model Character
 │       └── skill.js                  # Model Skill
 ├── .env                              # Konfigurasi environment
+├── plopfile.js                       # Konfigurasi generator Plop.js
+├── plop-templates/                   # Folder kumpulan template file Plop
 └── package.json                      # Info & dependencies Node
 ```
 
@@ -100,20 +107,48 @@ characterpedia/
 
 ---
 
+## ⚡️ Otomatisasi File Boilerplate dengan Plop.js
+
+Project ini sudah dilengkapi [Plop.js](https://plopjs.com/) sebagai code generator.  
+Kamu bisa membuat file controller, middleware, route, model, validation, atau view EJS secara otomatis lewat terminal.
+
+### Contoh perintah Plop:
+
+```bash
+npm run plop
+```
+
+Pilih generator yang kamu butuhkan, lalu ikuti instruksi untuk mengisi nama file/resource.  
+File akan otomatis dibuat sesuai struktur folder dan template.
+
+**Daftar generator yang tersedia:**
+
+- Controller (dengan CRUD)
+- Middleware
+- Route
+- Model + Migration + Seeder (Sequelize)
+- Validation (express-validator)
+- View EJS (kosong, nama/path bebas)
+
+---
+
 ## 💻 Cara Instalasi & Menjalankan Lokal
 
 1. **Clone repositori:**
+
    ```bash
    git clone https://github.com/yourusername/characterpedia.git
    cd characterpedia
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Konfigurasi environment (.env):**
+
    ```
    DB_HOST=localhost
    DB_USER=root
@@ -122,16 +157,24 @@ characterpedia/
    ```
 
 4. **Generate file Tailwind:**
+
    ```bash
    npx tailwindcss -i ./src/input.css -o ./public/src/output.css --watch
    ```
 
 5. **Jalankan server:**
+
    ```bash
    npm start
    ```
 
-6. **Akses website:**  
+6. **Jalankan Plop.js (opsional):**
+
+   ```bash
+   npm run plop
+   ```
+
+7. **Akses website:**  
    Buka [http://localhost:3000](http://localhost:3000)
 
 ---
@@ -150,6 +193,7 @@ characterpedia/
 - mysql2
 - dotenv
 - tailwindcss
+- plop
 
 Tambahkan/instal dependencies lain sesuai kebutuhan.
 

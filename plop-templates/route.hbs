@@ -1,0 +1,21 @@
+const express = require('express');
+const router = express.Router();
+
+/**
+ * Route module untuk fitur Flop.
+ * Menggunakan express.Router() untuk menangani endpoint terkait flop.
+ *
+ * @module routes/flop
+ * @requires express
+ */
+
+/**
+ * GET /
+ * Menampilkan halaman utama flop.
+ */
+router.get('/', (req, res) => {
+  // Logic untuk menampilkan halaman utama flop
+  res.send('Halaman utama Flop');
+});
+
+module.exports = router;

@@ -54,7 +54,6 @@ exports.create = asyncHandler(async (req, res) => {
 exports.store = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
 
-  // Validasi gambar
   const imageError = validateImage(req);
   if (imageError) {
     if (req.file && req.file.filename) {
@@ -129,7 +128,6 @@ exports.update = asyncHandler(async (req, res) => {
 
   const errors = validationResult(req);
 
-  // Validasi gambar
   if (req.file) {
     const imageError = validateImage(req);
     if (imageError) {
@@ -142,10 +140,8 @@ exports.update = asyncHandler(async (req, res) => {
 
     const oldImage = character.image;
 
-    // Set gambar baru ke character
     character.image = req.file.filename;
 
-    // Hapus gambar lama jika ada
     if (oldImage) {
       const oldImagePath = path.join(IMAGE_PATH, oldImage);
       // console.log("[DELETE OLD IMAGE] Menghapus:", oldImagePath);
@@ -196,7 +192,6 @@ exports.destroy = asyncHandler(async (req, res) => {
   }
 
   try {
-    // Hapus gambar jika ada
     if (character.image) {
       deleteImage(character.image, IMAGE_PATH);
     }

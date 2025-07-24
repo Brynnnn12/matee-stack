@@ -1,5 +1,11 @@
 const { User, Role } = require("../models");
 
+/**
+ * middleware untuk melampirkan user ke request
+ * jika user sudah login, user akan diambil dari database berdasarkan session userId
+ * jika user belum login, user akan di-set ke null
+ * ini digunakan untuk mengakses informasi user di dalam route handler
+ */
 exports.attachUser = async (req, res, next) => {
   if (req.session.userId) {
     const user = await User.findByPk(req.session.userId, {
@@ -13,7 +19,13 @@ exports.attachUser = async (req, res, next) => {
   }
   next();
 };
-// Proteksi: hanya user login yang bisa akses
+
+/**
+ * middleware untuk melindungi rute yang memerlukan otentikasi
+ * jika user belum login, redirect ke halaman login
+ * Jika user sudah login, lanjutkan ke rute berikutnya
+ * Jika user sudah login, tetapi tidak memiliki role yang sesuai, redirect ke halaman home
+ */
 exports.protect = (req, res, next) => {
   if (!req.session.userId) {
     req.flash("message", "Silakan login terlebih dahulu");
@@ -22,7 +34,11 @@ exports.protect = (req, res, next) => {
   next();
 };
 
-// Otorisasi: hanya role tertentu yang bisa akses
+/**
+ * middleware untuk mengotorisasi akses berdasarkan role
+ * jika user tidak memiliki role yang sesuai, redirect ke halaman home
+ * Jika user memiliki role yang sesuai, lanjutkan ke rute berikutnya
+ */
 exports.authorize = (...roles) => {
   return async (req, res, next) => {
     if (!req.session.userId) {

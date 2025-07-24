@@ -1,11 +1,21 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
+/**
+ * Middleware untuk menangani error
+ * Menangani berbagai jenis error seperti Sequelize, CSRF, dan session errors
+ * Mengembalikan response JSON dengan status dan message yang sesuai
+ */
 exports.notFound = (req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
 
+/**
+ * Middleware untuk menangani error
+ * Menangani berbagai jenis error seperti Sequelize, CSRF, dan session errors
+ * Mengembalikan response JSON dengan status dan message yang sesuai
+ * Jika dalam mode development, juga mengembalikan stack trace
+ * Jika dalam mode production, hanya mengembalikan status dan message
+ */
 exports.errorHandler = (err, req, res, next) => {
   // Default status code dan message
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
@@ -25,21 +35,16 @@ exports.errorHandler = (err, req, res, next) => {
     }));
   }
 
-  // ...existing code...
-
-  // Handle CSRF errors
   if (err.code === "EBADCSRFTOKEN") {
     statusCode = 403;
     message = "Invalid CSRF token";
   }
 
-  // Handle express-session errors
   if (err.name === "SessionError") {
     statusCode = 400;
     message = "Session error";
   }
 
-  // Handle express-validator errors
   if (Array.isArray(err.errors) && err.errors[0]?.param) {
     statusCode = 400;
     message = "Validation Error";
@@ -49,14 +54,12 @@ exports.errorHandler = (err, req, res, next) => {
     }));
   }
 
-  // Response structure
   const response = {
     status: statusCode >= 500 ? "error" : "fail",
     message,
     ...(errors && { errors }), // Only include errors if exists
   };
 
-  // Include stack trace in development only
   if (process.env.NODE_ENV === "development") {
     response.stack = err.stack;
   }

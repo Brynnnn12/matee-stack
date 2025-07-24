@@ -1,23 +1,30 @@
 const { body } = require("express-validator");
 const validator = require("validator");
 
+/**
+ * validasi untuk register dan login
+ * @module validation/authValidation
+ * @requires express-validator
+ * @requires validator
+ * @description
+ * Modul ini berisi validasi untuk proses pendaftaran (register) dan masuk (login) pengguna.
+ * Validasi ini memastikan bahwa data yang diterima sesuai dengan format yang diharapkan,
+ * termasuk sanitasi input untuk mencegah serangan XSS (Cross-Site Scripting).
+ */
 exports.registerValidation = [
   body("name")
     .notEmpty()
     .withMessage("Nama wajib diisi")
     .isLength({ min: 3 })
     .withMessage("Nama minimal 3 karakter")
-    // Sanitasi input untuk menghindari XSS
     .customSanitizer((value) => {
       return value
         .replace(/<script.*?>.*?<\/script>/gi, "")
         .replace(/<style.*?>.*?<\/style>/gi, "")
-        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+        .replace(/<[^>]*>/g, "");
     })
-    // Validasi karakter yang diperbolehkan
     .matches(/^[a-zA-Z\s]+$/)
     .withMessage("Nama hanya boleh terdiri dari huruf dan spasi")
-    // Escape karakter untuk menghindari XSS
     .customSanitizer((value) => validator.escape(value)),
   body("email")
     .notEmpty()
@@ -44,27 +51,26 @@ exports.loginValidation = [
     .notEmpty()
     .withMessage("Email wajib diisi")
 
-    // Sanitasi input untuk menghindari XSS
     .customSanitizer((value) => {
       return value
         .replace(/<script.*?>.*?<\/script>/gi, "")
         .replace(/<style.*?>.*?<\/style>/gi, "")
-        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+        .replace(/<[^>]*>/g, "");
     })
-    // Escape karakter untuk menghindari XSS
+
     .customSanitizer((value) => validator.escape(value)),
   body("password")
     .notEmpty()
     .withMessage("Password wajib diisi")
     .isLength({ min: 6 })
     .withMessage("Password minimal 6 karakter")
-    // Sanitasi input untuk menghindari XSS
+
     .customSanitizer((value) => {
       return value
         .replace(/<script.*?>.*?<\/script>/gi, "")
         .replace(/<style.*?>.*?<\/style>/gi, "")
-        .replace(/<[^>]*>/g, ""); // Hapus tag HTML
+        .replace(/<[^>]*>/g, "");
     })
-    // Escape karakter untuk menghindari XSS
+
     .customSanitizer((value) => validator.escape(value)),
 ];

@@ -19,12 +19,13 @@ exports.register = async (req, res, next) => {
       });
     }
     const user = await User.create({ name, email, password, avatar });
-    // ambil user beserta role
+
     const userWithRole = await User.findByPk(user.id, {
       include: [
         {
           model: Role,
           as: "role",
+          where: { name },
         },
       ],
     });
@@ -33,7 +34,6 @@ exports.register = async (req, res, next) => {
     req.flash("message", "Registrasi berhasil");
     return res.redirect("/");
   } catch (err) {
-    // Error roleId
     if (
       err.name === "SequelizeValidationError" &&
       err.errors.some((e) => e.path === "roleId")
@@ -85,14 +85,14 @@ exports.login = async (req, res, next) => {
 
   req.session.userId = user.id;
   req.flash("message", "Login berhasil");
-  return res.redirect("/dashboard");
+  return res.redirect("/");
 };
 
 exports.logout = (req, res) => {
   req.flash("message", "Logout berhasil");
   req.session.destroy((err) => {
     if (err) return res.status(500).send("Logout gagal");
-    res.clearCookie("connect.sid");
-    res.redirect("/login");
+    res.clearCookie(process.env.SESSION_NAME || "sessionId");
+    res.redirect("/");
   });
 };

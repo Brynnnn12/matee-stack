@@ -70,7 +70,6 @@ exports.edit = asyncHandler(async (req, res) => {
 });
 
 exports.update = asyncHandler(async (req, res) => {
-  //slug params
   const { slug } = req.params;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

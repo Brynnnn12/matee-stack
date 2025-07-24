@@ -95,12 +95,53 @@
         <% } %>
       </li>
 
-      <!-- Pixel character decoration -->
-      <li class="hidden md:block ml-4">
-        <div
-          class="w-10 h-10 bg-blue-400 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] animate-bounce"
-        ></div>
+      <% if (!user) { %>
+      <li>
+        <a
+          href="/login"
+          class="px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+          >LOGIN</a
+        >
       </li>
+      <li>
+        <a
+          href="/register"
+          class="px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+          >REGISTER</a
+        >
+      </li>
+      <% } else { %>
+      <li>
+        <form action="/logout" method="POST" class="inline">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button
+            type="submit"
+            class="px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+          >
+            LOGOUT
+          </button>
+      </li>
+      <% } %>
+
+      <!-- Avatar -->
+      <li class="relative">
+        <a
+          href="/dashboard/profiles"
+          class="flex items-center px-4 py-2 font-bold border-4 border-transparent hover:border-yellow-400 hover:text-yellow-400 transition hover:scale-105 uppercase shadow-lg"
+        >
+          <% if (user && user.avatar) { %>
+          <img
+            src="<%= user.avatar %>"
+            alt="Avatar"
+            class="w-8 h-8 rounded-full mr-2"
+          />
+          <% } else { %>
+          <span class="w-8 h-8 bg-gray-600 rounded-full mr-2"></span>
+          <% } %>
+          Profile
+        </a>
+      </li>
+
     </ul>
   </div>
 </nav>

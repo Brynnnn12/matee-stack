@@ -70,15 +70,22 @@
           <span>Role:</span>
           <span class="font-bold"><%= user ? user.role.name : 'Guest' %></span>
         </div>
-        <form action="/logout" method="POST" class="mt-4">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-          <button
-            type="submit"
-            class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded"
+        <div class="flex gap-2">
+          <a
+            href="/"
+            class="px-4 py-2 bg-yellow-400 text-gray-800 rounded hover:bg-yellow-500 transition"
+            >Back</a
           >
-            Logout
-          </button>
-        </form>
+          <form action="/logout" method="POST" class="mt-4">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button
+              type="submit"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

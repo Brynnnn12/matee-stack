@@ -71,7 +71,6 @@ exports.store = asyncHandler(async (req, res) => {
   }
 });
 
-// GET /dashboard/skills/:id/edit
 exports.edit = asyncHandler(async (req, res) => {
   const skill = await Skill.findByPk(req.params.id);
   if (!skill) {
@@ -90,7 +89,6 @@ exports.edit = asyncHandler(async (req, res) => {
   });
 });
 
-// PUT /dashboard/skills/:id
 exports.update = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -115,7 +113,6 @@ exports.update = asyncHandler(async (req, res) => {
   }
 });
 
-// DELETE /dashboard/skills/:id
 exports.destroy = asyncHandler(async (req, res) => {
   try {
     const skill = await Skill.findByPk(req.params.id);

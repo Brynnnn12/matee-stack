@@ -3,15 +3,23 @@ const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 
+/**
+ * Middleware untuk memfilter file yang diupload
+ * Hanya mengizinkan file dengan tipe tertentu (JPG, PNG, GIF)
+ */
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Invalid file type. Only JPG, PNG, GIF are allowed"), false);
+    cb(new Error("Hanya file gambar yang diizinkan (JPG, PNG, GIF)"), false);
   }
 };
 
+/**
+ * Storage configuration untuk avatar pengguna
+ * Menggunakan diskStorage untuk menyimpan file di server
+ */
 const storageUserAvatar = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = path.join(__dirname, "../../public/uploads/avatars");
@@ -29,6 +37,10 @@ const storageUserAvatar = multer.diskStorage({
   },
 });
 
+/**
+ * Storage configuration untuk gambar game
+ * Menggunakan diskStorage untuk menyimpan file di server
+ */
 const storageGameImage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = path.join(__dirname, "../../public/uploads/games");
@@ -45,6 +57,10 @@ const storageGameImage = multer.diskStorage({
   },
 });
 
+/**
+ * Storage configuration untuk gambar karakter
+ * Menggunakan diskStorage untuk menyimpan file di server
+ */
 const storageCharacterImage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = path.join(__dirname, "../../public/uploads/characters");
@@ -62,6 +78,10 @@ const storageCharacterImage = multer.diskStorage({
   },
 });
 
+/**
+ * Middleware untuk mengupload avatar pengguna, gambar game, dan gambar karakter
+ * Menggunakan multer dengan konfigurasi storage, fileFilter, dan limits
+ */
 const uploadUserAvatar = multer({
   storage: storageUserAvatar,
   fileFilter,
@@ -72,7 +92,7 @@ const uploadGameImage = multer({
   storage: storageGameImage,
   fileFilter,
   limits: { fileSize: 5 * 1024 * 1024 },
-}).single("image"); // <- gunakan .single("image") agar di controller req.file.filename
+}).single("image");
 
 const uploadCharacterImage = multer({
   storage: storageCharacterImage,

@@ -54,15 +54,11 @@ exports.create = asyncHandler(async (req, res) => {
 exports.store = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
 
-  //debug req.body
-
-  // Validasi gambar
   const imageError = validateImage(req);
   if (imageError) {
     if (req.file && req.file.filename) {
       deleteImage(path.join(IMAGE_PATH, req.file.filename));
     }
-    // Harus array of object
     req.flash("errors", [{ path: "image", msg: imageError }]);
     req.flash("old", req.body);
     return res.redirect("/dashboard/games/create");
@@ -73,7 +69,6 @@ exports.store = asyncHandler(async (req, res) => {
       deleteImage(path.join(IMAGE_PATH, req.file.filename));
     }
 
-    // express-validator sudah array of object
     // console.log(errors.array());
     req.flash("errors", errors.array());
     req.flash("old", req.body);
@@ -128,7 +123,6 @@ exports.update = asyncHandler(async (req, res) => {
   }
 
   if (!errors.isEmpty()) {
-    // Hapus file jika sudah diupload
     if (req.file && req.file.filename) {
       deleteImage(req.file.filename, IMAGE_PATH);
     }
@@ -137,7 +131,6 @@ exports.update = asyncHandler(async (req, res) => {
     return res.redirect(`/dashboard/games/${slug}/edit`);
   }
 
-  // Jika upload gambar baru
   if (req.file) {
     const imageError = validateImage(req);
     if (imageError) {
@@ -146,14 +139,13 @@ exports.update = asyncHandler(async (req, res) => {
       req.flash("old", req.body);
       return res.redirect(`/dashboard/games/${slug}/edit`);
     }
-    // Hapus gambar lama
+
     if (game.image) {
       deleteImage(path.join(IMAGE_PATH, game.image));
     }
     game.image = req.file.filename;
   }
 
-  // Update data lain
   const { name, genre_id, description, release_date, developer } = req.body;
   game.name = name;
   game.slug = generateSlug(name);
@@ -174,7 +166,7 @@ exports.destroy = asyncHandler(async (req, res) => {
     req.flash("message", "Game tidak ditemukan");
     return res.redirect("/dashboard/games");
   }
-  // Hapus gambar jika ada
+
   if (game.image) {
     deleteImage(path.join(IMAGE_PATH, game.image));
   }
